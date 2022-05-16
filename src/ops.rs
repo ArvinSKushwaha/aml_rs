@@ -1037,7 +1037,7 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![0.0, 1.0, 0.0],
-            1e-5
+            1e-3
         ));
 
         let b = sin(&0.0.into());
@@ -1067,7 +1067,7 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![1.0, 0.0, -1.0],
-            1e-5
+            1e-3
         ));
 
         let b = cos(&0.0.into());
@@ -1097,7 +1097,7 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![0.0, 1.0, 0.0],
-            1e-5
+            1e-3
         ));
 
         let b = tan(&FRAC_PI_4.into());
@@ -1132,7 +1132,7 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![0.0, PI / 6.0, PI / 2.0],
-            1e-5
+            1e-3
         ));
 
         let b = asin(&0.5.into());
@@ -1170,7 +1170,7 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![PI / 2.0, PI / 3.0, 0.0],
-            1e-5
+            1e-3
         ));
 
         let b = acos(&0.5.into());
@@ -1208,7 +1208,7 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![0.0, PI / 4.0, PI / 2.0],
-            1e-5
+            1e-3
         ));
 
         let b = atan(&1.0.into());
@@ -1226,7 +1226,7 @@ mod tests {
         assert!(are_close_float(
             a.scalar_data().expect("Expected scalar"),
             PI / 2.0,
-            1e-5
+            1e-3
         ));
 
         // Test atan of -infinity (should return -PI/2)
@@ -1234,7 +1234,7 @@ mod tests {
         assert!(are_close_float(
             a.scalar_data().expect("Expected scalar"),
             -PI / 2.0,
-            1e-5
+            1e-3
         ));
     }
 
@@ -1244,7 +1244,7 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![0.0, 1.0, 2.0],
-            1e-5
+            1e-3
         ));
 
         let b = sqrt(&4.0.into());
@@ -1280,7 +1280,7 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![1.0, 2.718281828459045, 7.38905609893065],
-            1e-5
+            1e-3
         ));
 
         let b = exp(&2.0.into());
@@ -1308,7 +1308,7 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![0.0, 1.0, 2.0],
-            1e-5
+            1e-3
         ));
 
         let b = log(&7.38905609893065.into());
@@ -1340,7 +1340,7 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![0.0, 0.6931471805599453, 1.0986122886681098],
-            1e-5
+            1e-3
         ));
 
         let b = log1p(&2.0.into());
@@ -1375,7 +1375,7 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![1.0, 2.0, 3.0],
-            1e-5
+            1e-3
         ));
 
         let b = abs(&2.0.into());
