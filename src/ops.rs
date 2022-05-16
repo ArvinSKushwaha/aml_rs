@@ -616,7 +616,7 @@ pub fn transpose(a: &Value) -> Value {
 
             Value::new_tensor_with_op(layout, data, Operation::Transpose(a.data_ref()))
         }
-        Value::Scalar(a) => Value::new_scalar_with_op(a.data(), Operation::Transpose(a.data_ref())),
+        Value::Scalar(_) => panic!("Transpose only works on tensors"),
     }
 }
 
@@ -1037,11 +1037,15 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![0.0, 1.0, 0.0],
-            1e-3
+            1e-5
         ));
 
         let b = sin(&0.0.into());
-        assert_eq!(b.scalar_data().expect("Expected scalar"), 0.0);
+        assert!(are_close_float(
+            b.scalar_data().expect("Expected scalar"),
+            0.0,
+            1e-5
+        ));
 
         assert!(matches!(a.op(), Some(Operation::Sin(_))));
         assert!(matches!(b.op(), Some(Operation::Sin(_))));
@@ -1067,11 +1071,15 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![1.0, 0.0, -1.0],
-            1e-3
+            1e-5
         ));
 
         let b = cos(&0.0.into());
-        assert_eq!(b.scalar_data().expect("Expected scalar"), 1.0);
+        assert!(are_close_float(
+            b.scalar_data().expect("Expected scalar"),
+            1.0,
+            1e-5
+        ));
 
         assert!(matches!(a.op(), Some(Operation::Cos(_))));
         assert!(matches!(b.op(), Some(Operation::Cos(_))));
@@ -1097,11 +1105,15 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![0.0, 1.0, 0.0],
-            1e-3
+            1e-5
         ));
 
         let b = tan(&FRAC_PI_4.into());
-        assert_eq!(b.scalar_data().expect("Expected scalar"), 1.0);
+        assert!(are_close_float(
+            b.scalar_data().expect("Expected scalar"),
+            1.0,
+            1e-5
+        ));
 
         assert!(matches!(a.op(), Some(Operation::Tan(_))));
         assert!(matches!(b.op(), Some(Operation::Tan(_))));
@@ -1132,11 +1144,15 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![0.0, PI / 6.0, PI / 2.0],
-            1e-3
+            1e-5
         ));
 
         let b = asin(&0.5.into());
-        assert_eq!(b.scalar_data().expect("Expected scalar"), PI / 6.0);
+        assert!(are_close_float(
+            b.scalar_data().expect("Expected scalar"),
+            PI / 6.0,
+            1e-5
+        ));
 
         assert!(matches!(a.op(), Some(Operation::Asin(_))));
         assert!(matches!(b.op(), Some(Operation::Asin(_))));
@@ -1170,11 +1186,15 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![PI / 2.0, PI / 3.0, 0.0],
-            1e-3
+            1e-5
         ));
 
         let b = acos(&0.5.into());
-        assert_eq!(b.scalar_data().expect("Expected scalar"), PI / 3.0);
+        assert!(are_close_float(
+            b.scalar_data().expect("Expected scalar"),
+            PI / 3.0,
+            1e-5
+        ));
 
         assert!(matches!(a.op(), Some(Operation::Acos(_))));
         assert!(matches!(b.op(), Some(Operation::Acos(_))));
@@ -1208,11 +1228,15 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![0.0, PI / 4.0, PI / 2.0],
-            1e-3
+            1e-5
         ));
 
         let b = atan(&1.0.into());
-        assert_eq!(b.scalar_data().expect("Expected scalar"), PI / 4.0);
+        assert!(are_close_float(
+            b.scalar_data().expect("Expected scalar"),
+            PI / 4.0,
+            1e-5
+        ));
 
         assert!(matches!(a.op(), Some(Operation::Atan(_))));
         assert!(matches!(b.op(), Some(Operation::Atan(_))));
@@ -1226,7 +1250,7 @@ mod tests {
         assert!(are_close_float(
             a.scalar_data().expect("Expected scalar"),
             PI / 2.0,
-            1e-3
+            1e-5
         ));
 
         // Test atan of -infinity (should return -PI/2)
@@ -1234,7 +1258,7 @@ mod tests {
         assert!(are_close_float(
             a.scalar_data().expect("Expected scalar"),
             -PI / 2.0,
-            1e-3
+            1e-5
         ));
     }
 
@@ -1244,11 +1268,15 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![0.0, 1.0, 2.0],
-            1e-3
+            1e-5
         ));
 
         let b = sqrt(&4.0.into());
-        assert_eq!(b.scalar_data().expect("Expected scalar"), 2.0);
+        assert!(are_close_float(
+            b.scalar_data().expect("Expected scalar"),
+            2.0,
+            1e-5
+        ));
 
         assert!(matches!(a.op(), Some(Operation::Sqrt(_))));
         assert!(matches!(b.op(), Some(Operation::Sqrt(_))));
@@ -1280,11 +1308,15 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![1.0, 2.718281828459045, 7.38905609893065],
-            1e-3
+            1e-5
         ));
 
         let b = exp(&2.0.into());
-        assert_eq!(b.scalar_data().expect("Expected scalar"), 7.38905609893065);
+        assert!(are_close_float(
+            b.scalar_data().expect("Expected scalar"),
+            7.38905609893065,
+            1e-5
+        ));
 
         assert!(matches!(a.op(), Some(Operation::Exp(_))));
         assert!(matches!(b.op(), Some(Operation::Exp(_))));
@@ -1308,11 +1340,15 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![0.0, 1.0, 2.0],
-            1e-3
+            1e-5
         ));
 
         let b = log(&7.38905609893065.into());
-        assert_eq!(b.scalar_data().expect("Expected scalar"), 2.0);
+        assert!(are_close_float(
+            b.scalar_data().expect("Expected scalar"),
+            2.0,
+            1e-5
+        ));
 
         assert!(matches!(a.op(), Some(Operation::Log(_))));
         assert!(matches!(b.op(), Some(Operation::Log(_))));
@@ -1340,14 +1376,15 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![0.0, 0.6931471805599453, 1.0986122886681098],
-            1e-3
+            1e-5
         ));
 
         let b = log1p(&2.0.into());
-        assert_eq!(
+        assert!(are_close_float(
             b.scalar_data().expect("Expected scalar"),
-            1.0986122886681098
-        );
+            1.0986122886681098,
+            1e-5
+        ));
 
         assert!(matches!(a.op(), Some(Operation::Log1p(_))));
         assert!(matches!(b.op(), Some(Operation::Log1p(_))));
@@ -1375,7 +1412,7 @@ mod tests {
         assert!(are_close_vec(
             a.tensor_data().expect("Expected tensor"),
             vec![1.0, 2.0, 3.0],
-            1e-3
+            1e-5
         ));
 
         let b = abs(&2.0.into());
@@ -1407,10 +1444,7 @@ mod tests {
             c.tensor_data().expect("Expected tensor")
         );
         assert_eq!(b.layout(), c.layout());
-
-        let d = transpose(&scalar!(1.0));
-        assert_eq!(d.scalar_data().expect("Expected scalar"), 1.0);
-        assert_eq!(d.layout(), shape![1]);
+        assert!(matches!(b.op(), Some(Operation::Transpose(_))));
 
         // Test transpose of non-rectangular tensor
         let a = tensor![[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]];
@@ -1421,11 +1455,15 @@ mod tests {
             c.tensor_data().expect("Expected tensor")
         );
         assert_eq!(b.layout(), c.layout());
-
         assert!(matches!(b.op(), Some(Operation::Transpose(_))));
-        assert!(matches!(d.op(), Some(Operation::Transpose(_))));
 
         // TODO: Implement tests for higher-dimensional tensors (currently not supported).
+    }
+
+    #[test]
+    #[should_panic]
+    pub fn test_transpose_scalar() {
+        transpose(&1.0.into());
     }
 
     #[test]
